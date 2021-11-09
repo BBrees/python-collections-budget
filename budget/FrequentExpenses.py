@@ -1,16 +1,18 @@
-from . import Expense
+import matplotlib.pyplot as plt
+
+import Expense
 import collections
 
-import matplotlib.pyplot as plt
+
 
 expenses = Expense.Expenses()
 
-read_expenses(expenses, data/spending_data.csv)
+Expense.read_expenses(expenses, "data/spending_data.csv")
 
 spending_categories = []
 
 for expense in expenses.list:
-    append.expense_category(spending_categories)
+    spending_categories.append(expense.category)
 
 spending_counter = collections.Counter(spending_categories)
 
