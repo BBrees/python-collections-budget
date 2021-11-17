@@ -3,27 +3,28 @@ import Expense
 import matplotlib.pyplot as plt
 
 
-class budgetList:
+class BudgetList:
     def __init__(self, budget):
         self.budget = budget
         self.sum_expenses = 0
         self.expenses = []
         self.sum_overages = 0
         self.overages = []
-    
-    def append(self, item):
-        if (self.sum_expenses + item) < self.budget:
-            self.expenses.append(item)
-        else:
-            self.overages.append(item)
-
-            return self.sum_overages + item
-    
+   
     def __len__(self):
         Sx = len(self.expenses)
         So = len(self.overages)
 
         return Sx + So
+    
+    def append(self, item):
+        if (self.sum_expenses + item < self.budget):
+            self.expenses.append(item)
+            self.sum_expenses += item
+        else:
+            self.overages.append(item)
+            self.overages += item
+            
     
     def __iter__(self):
         self.iter_e = iter(self.expenses)
@@ -33,26 +34,25 @@ class budgetList:
     
     def __next__(self):
         try:
-            return __next__(self.iter_e)
-        except:
-            StopIteration as stop
-            return __next__(self.iter_o)
+            return self.iter_e.__next__()
+        except StopIteration as stop:
+            return self.iter_o.__next__()
     
 def main():
-    myBudgetList = budgetList.__init__(1200)
-    expenses = Expense.Expense()
-    expenses.Expenses.read_expenses("data/spending_data.csv")
+    myBudgetList = BudgetList(1200)
+    expenses = Expense.Expenses()
+    expenses.read_expenses("data/spending_data.csv")
     
     for expense in expenses.list:
-        expense.amount.append(myBudgetList)
+        myBudgetList.append(expense.amount)
 
-    print('The count of all expenses:', str(len(myBudgetList)))
+    print('The count of all expenses: ', str(len(myBudgetList)))
 
     for entry in myBudgetList:
         print(entry)
     
     fig, ax = plt.subplots()
-    labels = 'Expenses', 'Overages', 'Budget'
+    labels = ['Expenses', 'Overages', 'Budget']
     values = [myBudgetList: sum_expenses, sum_overages, budget]
 
     ax.bar(labels, values, color=['green', 'red', 'blue'])
